@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user_db
+    username: username
+    password: password
+  liquibase:
+    enabled: false
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-request-size: 10MB
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: YCAJEAUAMQbRxq_GTOvJJ8d8k
+      secret-key: YCO62z55JVzG5m8nF949dkC1z6NU_qF-HBr0kvMO
+    region:
+      static: ru-central1
+    stack:
+      auto: false
+    endpoint:
+      s3:
+        static: https://storage.yandexcloud.net
+    bucket:
+      name: barbershop-app
+
+server:
+  port: 8080
