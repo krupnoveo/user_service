@@ -34,10 +34,18 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    implementation("software.amazon.awssdk:s3:2.29.20")
+
+    implementation(platform("software.amazon.awssdk:bom:2.27.21"))
+    implementation("software.amazon.awssdk:s3")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.3.0")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
 }
-
+springBoot {
+    mainClass.set("ru.krupnoveo.edu.user_service.UserServiceApplication")
+}
 tasks.withType<Test> {
     useJUnitPlatform()
 }
