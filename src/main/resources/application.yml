@@ -1,10 +1,11 @@
 spring:
   application:
-    name: user-service
+    name: USER-SERVICE
   datasource:
-    url: jdbc:postgresql://localhost:5432/user_db
-    username: username
-    password: password
+    url: jdbc:postgresql://user_service_postgres:5432/user_db
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   liquibase:
     enabled: false
   servlet:
@@ -12,17 +13,23 @@ spring:
       enabled: true
       file-size-threshold: 2MB
       max-request-size: 10MB
+  config:
+    import: optional:file:../.env[.properties]
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  security:
+    secret-key: ${JWT_SECRET_KEY}
 
 
 cloud:
   aws:
     credentials:
-      access-key: YCAJEAUAMQbRxq_GTOvJJ8d8k
-      secret-key: YCO62z55JVzG5m8nF949dkC1z6NU_qF-HBr0kvMO
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
     region:
       static: ru-central1
-    stack:
-      auto: false
     endpoint:
       s3:
         static: https://storage.yandexcloud.net
