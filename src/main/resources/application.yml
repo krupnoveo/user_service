@@ -1,8 +1,10 @@
 spring:
   application:
-    name: USER-SERVICE
+    name: ${user.service.name}
+  config:
+    import: optional:file:../.env[.properties]
   datasource:
-    url: jdbc:postgresql://user_service_postgres:5432/user_db
+    url: jdbc:postgresql://${postgres.host}:${postgres.port}/user_db
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -13,8 +15,6 @@ spring:
       enabled: true
       file-size-threshold: 2MB
       max-request-size: 10MB
-  config:
-    import: optional:file:../.env[.properties]
   jpa:
     hibernate:
       ddl-auto: validate
@@ -22,6 +22,10 @@ spring:
   security:
     secret-key: ${JWT_SECRET_KEY}
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.service.host}:${eureka.service.port}/eureka/
 
 cloud:
   aws:
@@ -37,4 +41,4 @@ cloud:
       name: barbershop-app
 
 server:
-  port: 8080
+  port: ${user.service.port}

@@ -46,7 +46,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.deleteUser(token.split(" ")[1]));
     }
 
-    @PostMapping("/update/data")
+    @PutMapping("/update/data")
     public ResponseEntity<UserResponse> updateUser(
             @RequestBody UpdateUserRequest updateUserRequest,
             @RequestHeader("Authorization") String token
@@ -54,7 +54,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.updateUser(updateUserRequest, token.split(" ")[1]));
     }
 
-    @PostMapping("/update/password")
+    @PutMapping("/update/password")
     public ResponseEntity<UserResponse> updatePassword(
             @RequestBody UpdatePasswordRequest updatePasswordRequest,
             @RequestHeader("Authorization") String token
@@ -71,7 +71,7 @@ public class UserController {
                 .body(userService.getPhoto(token.split(" ")[1]));
     }
 
-    @PostMapping("/photo")
+    @PostMapping("/update/photo")
     public ResponseEntity<Void> setPhoto(
             @RequestParam(value = "photo") MultipartFile file,
             @RequestHeader("Authorization") String token
@@ -80,7 +80,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/photo")
+    @DeleteMapping("/photo/delete")
     public ResponseEntity<Void> deletePhoto(@RequestHeader("Authorization") String token) {
         userService.deletePhoto(token.split(" ")[1]);
         return ResponseEntity.ok().build();

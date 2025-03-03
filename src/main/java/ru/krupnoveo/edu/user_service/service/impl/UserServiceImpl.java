@@ -73,15 +73,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateUser(UpdateUserRequest updateUserRequest, String token) {
         UserEntity user = getUser(token);
-        user.setFirstName(updateUserRequest.firstName());
-        user.setLastName(updateUserRequest.lastName());
-        user.setEmail(updateUserRequest.email());
-        user.setPhoneNumber(updateUserRequest.phoneNumber());
-        user.setDateOfBirth(updateUserRequest.dateOfBirth());
-        user.setBarbershopId(updateUserRequest.barbershopId());
-        user.setRole(updateUserRequest.role());
-        user.setGrade(updateUserRequest.grade());
-        user.setAboutMe(updateUserRequest.aboutMe());
+        if (updateUserRequest.firstName() != null) {
+            user.setFirstName(updateUserRequest.firstName());
+        }
+        if (updateUserRequest.lastName() != null) {
+            user.setLastName(updateUserRequest.lastName());
+        }
+        if (updateUserRequest.email() != null) {
+            user.setEmail(updateUserRequest.email());
+        }
+        if (updateUserRequest.phoneNumber() != null) {
+            user.setPhoneNumber(updateUserRequest.phoneNumber());
+        }
+        if (updateUserRequest.dateOfBirth() != null) {
+            user.setDateOfBirth(updateUserRequest.dateOfBirth());
+        }
+        if (updateUserRequest.barbershopId() != null) {
+            user.setBarbershopId(updateUserRequest.barbershopId());
+        }
+        if (updateUserRequest.role() != null) {
+            user.setRole(updateUserRequest.role());
+        }
+        if (updateUserRequest.grade() != null) {
+            user.setGrade(updateUserRequest.grade());
+        }
+        if (updateUserRequest.aboutMe() != null) {
+            user.setAboutMe(updateUserRequest.aboutMe());
+        }
         return jpaUserRepository.save(user).toDto().build();
     }
 

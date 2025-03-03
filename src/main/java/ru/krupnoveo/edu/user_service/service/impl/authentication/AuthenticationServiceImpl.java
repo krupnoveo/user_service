@@ -3,6 +3,7 @@ package ru.krupnoveo.edu.user_service.service.impl.authentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -82,7 +83,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 return new UserDetailsResponse(
                         id,
                         userDetails.getUsername(),
-                        userDetails.getAuthorities()
+                        userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
                 );
             }
             return null;

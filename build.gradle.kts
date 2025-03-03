@@ -42,6 +42,8 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.0")
+
 }
 springBoot {
     mainClass.set("ru.krupnoveo.edu.user_service.UserServiceApplication")

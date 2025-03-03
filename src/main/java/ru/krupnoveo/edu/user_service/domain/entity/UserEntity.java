@@ -80,15 +80,15 @@ public class UserEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return switch (role) {
             case "ADMIN" -> List.of(
-                    new SimpleGrantedAuthority("ROLE_CLIENT"),
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_BARBER"),
-                    new SimpleGrantedAuthority("ROLE_ADMINISTRATOR")
+//                    new SimpleGrantedAuthority("ROLE_CLIENT"),
+                    new SimpleGrantedAuthority("ROLE_ADMIN")
+//                    new SimpleGrantedAuthority("ROLE_BARBER"),
+//                    new SimpleGrantedAuthority("ROLE_ADMINISTRATOR")
             );
             case "ADMINISTRATOR" -> List.of(
-                    new SimpleGrantedAuthority("ROLE_ADMINISTRATOR"),
-                    new SimpleGrantedAuthority("ROLE_CLIENT"),
-                    new SimpleGrantedAuthority("ROLE_BARBER")
+                    new SimpleGrantedAuthority("ROLE_ADMINISTRATOR")
+//                    new SimpleGrantedAuthority("ROLE_CLIENT"),
+//                    new SimpleGrantedAuthority("ROLE_BARBER")
             );
             case "CLIENT" -> List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));
             case "BARBER" -> List.of(new SimpleGrantedAuthority("ROLE_BARBER"));
