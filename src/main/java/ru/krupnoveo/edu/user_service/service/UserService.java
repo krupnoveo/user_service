@@ -18,15 +18,27 @@ public interface UserService {
 
     List<UserResponse> getAllUsers(UUID barbershopId, String role);
 
-    UserResponse deleteUser(String token);
+    UserResponse deleteUserByToken(String token);
 
-    UserResponse updateUser(UpdateUserRequest updateUserRequest, String token);
+    UserResponse updateUserByToken(UpdateUserRequest updateUserRequest, String token);
 
-    UserResponse updatePassword(UpdatePasswordRequest updatePasswordRequest, String token);
+    UserResponse updatePasswordByToken(UpdatePasswordRequest updatePasswordRequest, String token);
 
-    InputStreamResource getPhoto(String token);
+    InputStreamResource getPhotoByToken(String token);
 
-    void setPhoto(MultipartFile file, String token);
+    void setPhotoByToken(MultipartFile file, String token);
 
-    void deletePhoto(String token);
+    void deletePhotoByToken(String token);
+
+    UserResponse updateUserById(UpdateUserRequest updateUserRequest, UUID id);
+
+    UserResponse updatePasswordById(UpdatePasswordRequest updatePasswordRequest, UUID id);
+
+    InputStreamResource getPhotoById(UUID id);
+
+    void setPhotoById(MultipartFile file, UUID id);
+
+    void deletePhotoById(UUID id);
+
+    UserResponse deleteUserById(UUID id);
 }

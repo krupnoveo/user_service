@@ -43,7 +43,12 @@ public class UserController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<UserResponse> deleteUser(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok().body(userService.deleteUser(token.split(" ")[1]));
+        return ResponseEntity.ok().body(userService.deleteUserByToken(token.split(" ")[1]));
+    }
+
+    @DeleteMapping("{id}/delete")
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(userService.deleteUserById(id));
     }
 
     @PutMapping("/update/data")
@@ -51,7 +56,15 @@ public class UserController {
             @RequestBody UpdateUserRequest updateUserRequest,
             @RequestHeader("Authorization") String token
     ) {
-        return ResponseEntity.ok().body(userService.updateUser(updateUserRequest, token.split(" ")[1]));
+        return ResponseEntity.ok().body(userService.updateUserByToken(updateUserRequest, token.split(" ")[1]));
+    }
+
+    @PutMapping("{id}/update/data")
+    public ResponseEntity<UserResponse> updateUser(
+            @RequestBody UpdateUserRequest updateUserRequest,
+            @PathVariable UUID id
+    ) {
+        return ResponseEntity.ok().body(userService.updateUserById(updateUserRequest, id));
     }
 
     @PutMapping("/update/password")
@@ -59,7 +72,15 @@ public class UserController {
             @RequestBody UpdatePasswordRequest updatePasswordRequest,
             @RequestHeader("Authorization") String token
     ) {
-        return ResponseEntity.ok().body(userService.updatePassword(updatePasswordRequest, token.split(" ")[1]));
+        return ResponseEntity.ok().body(userService.updatePasswordByToken(updatePasswordRequest, token.split(" ")[1]));
+    }
+
+    @PutMapping("{id}/update/password")
+    public ResponseEntity<UserResponse> updatePassword(
+            @RequestBody UpdatePasswordRequest updatePasswordRequest,
+            @PathVariable UUID id
+    ) {
+        return ResponseEntity.ok().body(userService.updatePasswordById(updatePasswordRequest, id));
     }
 
     @GetMapping("/photo")
@@ -68,7 +89,16 @@ public class UserController {
     ) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
-                .body(userService.getPhoto(token.split(" ")[1]));
+                .body(userService.getPhotoByToken(token.split(" ")[1]));
+    }
+
+    @GetMapping("{id}/photo")
+    public ResponseEntity<InputStreamResource> getPhoto(
+            @PathVariable UUID id
+    ) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(userService.getPhotoById(id));
     }
 
     @PostMapping("/update/photo")
@@ -76,13 +106,28 @@ public class UserController {
             @RequestParam(value = "photo") MultipartFile file,
             @RequestHeader("Authorization") String token
     ) {
-        userService.setPhoto(file, token.split(" ")[1]);
+        userService.setPhotoByToken(file, token.split(" ")[1]);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("{id}/update/photo")
+    public ResponseEntity<Void> setPhoto(
+            @RequestParam(value = "photo") MultipartFile file,
+            @PathVariable UUID id
+    ) {
+        userService.setPhotoById(file, id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/photo/delete")
     public ResponseEntity<Void> deletePhoto(@RequestHeader("Authorization") String token) {
-        userService.deletePhoto(token.split(" ")[1]);
+        userService.deletePhotoByToken(token.split(" ")[1]);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{id}/photo/delete")
+    public ResponseEntity<Void> deletePhoto(@PathVariable UUID id) {
+        userService.deletePhotoById(id);
         return ResponseEntity.ok().build();
     }
 }

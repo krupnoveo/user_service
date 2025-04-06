@@ -63,16 +63,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse deleteUser(String token) {
-        deletePhoto(token);
+    public UserResponse deleteUserByToken(String token) {
+        deletePhotoByToken(token);
         UserEntity user = getUser(token);
+        return deleteUser(user);
+    }
+
+    @Override
+    public UserResponse deleteUserById(UUID id) {
+        deletePhotoById(id);
+        UserEntity user = getUser(id);
+        return deleteUser(user);
+    }
+
+    private UserResponse deleteUser(UserEntity user) {
         jpaUserRepository.delete(user);
         return user.toDto().build();
     }
 
     @Override
-    public UserResponse updateUser(UpdateUserRequest updateUserRequest, String token) {
+    public UserResponse updateUserByToken(UpdateUserRequest updateUserRequest, String token) {
         UserEntity user = getUser(token);
+        return updateUser(updateUserRequest, user);
+    }
+
+    @Override
+    public UserResponse updateUserById(UpdateUserRequest updateUserRequest, UUID id) {
+        UserEntity user = getUser(id);
+        return updateUser(updateUserRequest, user);
+    }
+
+    private UserResponse updateUser(UpdateUserRequest updateUserRequest, UserEntity user) {
         if (updateUserRequest.firstName() != null) {
             user.setFirstName(updateUserRequest.firstName());
         }
@@ -104,8 +125,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updatePassword(UpdatePasswordRequest updatePasswordRequest, String token) {
+    public UserResponse updatePasswordByToken(UpdatePasswordRequest updatePasswordRequest, String token) {
         UserEntity user = getUser(token);
+        return updatePassword(updatePasswordRequest, user);
+    }
+
+
+    @Override
+    public UserResponse updatePasswordById(UpdatePasswordRequest updatePasswordRequest, UUID id) {
+        UserEntity user = getUser(id);
+        return updatePassword(updatePasswordRequest, user);
+    }
+
+    private UserResponse updatePassword(UpdatePasswordRequest updatePasswordRequest, UserEntity user) {
         user.setPassword(
                 passwordEncoder.encode(updatePasswordRequest.password())
         );
@@ -113,22 +145,48 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public InputStreamResource getPhoto(String token) {
+    public InputStreamResource getPhotoByToken(String token) {
         UserEntity user = getUser(token);
         return objectStorageService.downloadPhoto(user.getPhoto());
     }
 
     @Override
-    public void setPhoto(MultipartFile file, String token) {
+    public InputStreamResource getPhotoById(UUID id) {
+        UserEntity user = getUser(id);
+        return objectStorageService.downloadPhoto(user.getPhoto());
+    }
+
+    @Override
+    public void setPhotoByToken(MultipartFile file, String token) {
         UserEntity user = getUser(token);
+        setPhoto(file, user);
+    }
+
+    @Override
+    public void setPhotoById(MultipartFile file, UUID id) {
+        UserEntity user = getUser(id);
+        setPhoto(file, user);
+    }
+
+    private void setPhoto(MultipartFile file, UserEntity user) {
         String fileName = objectStorageService.uploadPhoto(file, user.getPhoto());
         user.setPhoto(fileName);
         jpaUserRepository.save(user);
     }
 
     @Override
-    public void deletePhoto(String token) {
+    public void deletePhotoByToken(String token) {
         UserEntity user = getUser(token);
+        deletePhoto(user);
+    }
+
+    @Override
+    public void deletePhotoById(UUID id) {
+        UserEntity user = getUser(id);
+        deletePhoto(user);
+    }
+
+    private void deletePhoto(UserEntity user) {
         objectStorageService.deletePhoto(user.getPhoto());
         user.setPhoto(null);
         jpaUserRepository.save(user);
